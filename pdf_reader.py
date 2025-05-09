@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 load_dotenv()
 api_key = os.getenv("GROQ_API_KEY")
 #Load the document
-file_path = os.path.join(os.getcwd(), "Building LLM Powered Applic_ (Z-Library) (1).pdf")
+file_path = os.path.join(os.getcwd(), "2025-Economic-Survey.pdf")
 raw_documents = PyPDFLoader(file_path=file_path).load()
 #Split the document into chunks
 text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
@@ -39,7 +39,13 @@ rag_chain = (
     | model
     | StrOutputParser()
 )
-#Ask a question and generate a response
-question = "What is finetuning?"
-for chunk in rag_chain.stream(question):
-    print(chunk, end="", flush=True)
+while True:
+    question = input("Ask a question (type 'quit' or 'exit' to stop): ").strip()
+    if question.lower() in ['quit', 'exit']:
+        print("Exiting the program.")
+        break
+
+    # Generate response using rag_chain
+    for chunk in rag_chain.stream(question):
+        print(chunk, end="", flush=True)
+    print()  # Add newline after the full response
