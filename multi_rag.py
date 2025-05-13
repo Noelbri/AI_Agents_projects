@@ -64,4 +64,3 @@ while True:
     for chunk in rag_chain.stream(question):
         print(chunk, end="", flush=True)
     print()
-    
